@@ -1,0 +1,54 @@
+<!-- 
+    To systematically block XSS bugs, Angular treats all values as untrusted by default. 
+    Unlike values to be used for rendering, Angular templates are considered trusted by default, and should be treated as executable code. Never generate templates by concatenating user input and template syntax. 
+-->
+
+
+<h1>{{title}}</h1>
+
+<h2>Payload Tester</h2>
+<input type="text" [(ngModel)]="payload2">
+<button type="button" class="btn btn-primary" (click)="submitPayload()">Button</button>
+<p>{{payload2}}</p>
+<p [innerHTML]="msg2"></p>
+<hr>
+
+<h2>Interpolation</h2>
+<h3>Original Value: {{payload}}</h3>
+<input [(ngModel)]="payload">
+<button type="button" class="btn btn-primary" (click)="clickEvent()">Button</button>
+<p>{{msg}}</p>
+<hr>
+
+<!-- Angular 2+ supports an [innerHTML] property binding that will render HTML. -->
+<!-- use Plain Text Example &amp; <strong>Bold Text Example</strong> -->
+
+<h3>Using the [innerHTML] binded property: </h3>
+<h3>Original Value: {{payload3}} </h3>
+<input [(ngModel)]="payload3">
+<button type="button" class="btn btn-primary" (click)="testInnerHtml()">Untrusted</button>
+<button type="button" class="btn btn-primary" (click)="testInnerHtml2()">Trusted</button>
+
+<p [innerHTML]="msg4"></p>
+<hr>
+
+<h2>Dangerous URL</h2>
+<p>{{dangerousUrl}}</p>
+<p><a [href]="dangerousUrl">Click me</a></p>
+
+<h2>Trusted URL</h2>
+<p>{{trustedUrl}}</p>
+<p><a [href]="trustedUrl">Click me</a></p>
+
+<hr>
+<h2>Resource URL:</h2>
+<p>Showing: {{dangerousVideoUrl}}</p>
+
+
+<p>Untrusted:</p>
+<iframe class="e2e-iframe-untrusted-src" width="640" height="390" [src]="dangerousVideoUrl"></iframe>
+
+<p>Trusted:</p>
+<iframe class="e2e-iframe-trusted-src" width="640" height="390" [src]="videoUrl"></iframe>
+
+
