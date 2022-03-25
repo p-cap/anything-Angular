@@ -45,13 +45,12 @@
 <p><a [href]="trustedUrl">Click me</a></p>
 
 <hr>
+
+<!-- Resource URLs -->
 <h2>Resource URL:</h2>
 <p>Showing: {{dangerousVideoUrl}}</p>
-
-
 <p>Untrusted:</p>
 <iframe class="e2e-iframe-untrusted-src" width="640" height="390" [src]="dangerousVideoUrl"></iframe>
-
 <p>Trusted:</p>
 <iframe class="e2e-iframe-trusted-src" width="640" height="390" [src]="videoUrl"></iframe>
 

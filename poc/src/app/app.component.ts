@@ -24,14 +24,9 @@ export class AppComponent {
   payload3:string;
   renderedPayload3: SafeHtml;
 
-  // // notice the difference in declaration
-  // htmlSnippet = 'Template <style>@keyframes x{}</style><img style="animation-name:x" onanimationstart="alert(1)"></img><b>Syntax</b>';
-  // htmlSnippet2: SafeHtml;
-
   // url / link section
   dangerousUrl: string;
   trustedUrl: SafeUrl;
-
 
   // render video section
   dangerousVideoUrl!: string;
@@ -52,20 +47,13 @@ export class AppComponent {
     this.payload3 = "";
     this.renderedPayload3 = "";
 
-    // // untrusted vs trusted tags
-    //   this.htmlSnippet2 = this.sanitizer.bypassSecurityTrustHtml(
-    //   this.htmlSnippet);
-
     // untrusted vs trusted URLs
     this.dangerousUrl = 'javascript:alert("Hi there")';
     this.trustedUrl =  sanitizer.bypassSecurityTrustUrl(this.dangerousUrl);
 
-    //
+    // resource URLs
     this.updateVideoUrl('PUBnlbjZFAI');
-    
-
- 
-    };
+  };
     
   // payload tester function
   payloadTester() {
@@ -97,9 +85,4 @@ export class AppComponent {
       this.videoUrl =
           this.sanitizer.bypassSecurityTrustResourceUrl(this.dangerousVideoUrl);
   }
-
-
-   
-
-
 }
