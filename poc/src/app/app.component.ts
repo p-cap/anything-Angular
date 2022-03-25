@@ -11,61 +11,84 @@ import { DomSanitizer, SafeResourceUrl, SafeUrl, SafeHtml  } from '@angular/plat
 export class AppComponent {
   title = 'Angular’s XSS security model';
 
-  // notice the difference in declaration
-  htmlSnippet = 'Template <style>@keyframes x{}</style><img style="animation-name:x" onanimationstart="alert(1)"></img><b>Syntax</b>';
-  htmlSnippet2: SafeHtml;
 
-  // notice the difference in declaration
+  // payload tester section
+  payload:string;
+  renderedPayload:SafeHtml;
+
+  // interpolation
+  payload2:string;
+  interpolatedPayload2:string;
+
+  // binding with innerHTML
+  payload3:string;
+  renderedPayload3: SafeHtml;
+
+  // // notice the difference in declaration
+  // htmlSnippet = 'Template <style>@keyframes x{}</style><img style="animation-name:x" onanimationstart="alert(1)"></img><b>Syntax</b>';
+  // htmlSnippet2: SafeHtml;
+
+  // url / link section
   dangerousUrl: string;
   trustedUrl: SafeUrl;
 
 
-  // notice the difference in declaration
+  // render video section
   dangerousVideoUrl!: string;
   videoUrl!: SafeResourceUrl;
-
-  // payloadification
-  payload:string;
-  payload2:string;
-  payload3:string;
-
-
-  // returns to the page  
-  msg: string;
-  msg2: SafeHtml;
-  msg3: string;
-  msg4: SafeHtml;
 
   
   constructor(private sanitizer: DomSanitizer) {
 
-      // untrusted vs trusted tags
-      this.htmlSnippet2 = this.sanitizer.bypassSecurityTrustHtml(
-      this.htmlSnippet);
+    // payload tester section
+    this.payload = "";
+    this.renderedPayload = "";
 
-      // untrusted vs trusted URLs
-      this.dangerousUrl = 'javascript:alert("Hi there")';
-      this.trustedUrl =  sanitizer.bypassSecurityTrustUrl(this.dangerousUrl);
+    // interpolation
+    this.payload2 = "";
+    this.interpolatedPayload2 = "";
+    
+    // using innerHTML binded property
+    this.payload3 = "";
+    this.renderedPayload3 = "";
 
-      //
-      this.updateVideoUrl('PUBnlbjZFAI');
-      this.payload = "";
-      this.payload2 = "";
-      this.payload3 = "";
-      this.msg = "";
-      this.msg2 = "";
-      this.msg3 = "";
-      this.msg4 = "";
+    // // untrusted vs trusted tags
+    //   this.htmlSnippet2 = this.sanitizer.bypassSecurityTrustHtml(
+    //   this.htmlSnippet);
+
+    // untrusted vs trusted URLs
+    this.dangerousUrl = 'javascript:alert("Hi there")';
+    this.trustedUrl =  sanitizer.bypassSecurityTrustUrl(this.dangerousUrl);
+
+    //
+    this.updateVideoUrl('PUBnlbjZFAI');
+    
 
  
     };
-   
-    clickEvent(){
-      this.msg=this.payload;
-      return this.msg;
-    }
+    
+  // payload tester function
+  payloadTester() {
+      this.renderedPayload = this.sanitizer.bypassSecurityTrustHtml(this.payload);
+      return this.renderedPayload;
+  }
 
-    updateVideoUrl(id: string) {
+  // interpolation function
+  interpolatePayload(){
+      this.interpolatedPayload2=this.payload2;
+      return this.interpolatedPayload2;
+  }
+
+  // binding with innerHTML
+  renderUntrustedHTML() {
+    return this.renderedPayload3 = this.payload3;
+  }
+  renderTrustedHTML() {
+    this.renderedPayload3 = this.sanitizer.bypassSecurityTrustHtml(this.payload3)
+    return this.renderedPayload3;
+  }
+
+  updateVideoUrl(id: string) {
       // Appending an ID to a YouTube URL is safe.
       // Always make sure to construct SafeValue objects as
       // close as possible to the input data so
@@ -73,21 +96,10 @@ export class AppComponent {
       this.dangerousVideoUrl = 'https://www.youtube.com/embed/' + id;
       this.videoUrl =
           this.sanitizer.bypassSecurityTrustResourceUrl(this.dangerousVideoUrl);
-    }
+  }
 
-    submitPayload() {
-        this.msg2 = this.sanitizer.bypassSecurityTrustHtml(
-          this.payload2);
-        return this.msg2;
 
-    }
+   
 
-    testInnerHtml() {
-      return this.msg4 = this.payload3;
-    }
 
-    testInnerHtml2() {
-      this.msg4 = this.sanitizer.bypassSecurityTrustHtml(this.payload3)
-      return this.msg4;
-    }
 }

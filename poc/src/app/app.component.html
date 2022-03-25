@@ -3,35 +3,39 @@
     Unlike values to be used for rendering, Angular templates are considered trusted by default, and should be treated as executable code. Never generate templates by concatenating user input and template syntax. 
 -->
 
-
 <h1>{{title}}</h1>
 
+
 <h2>Payload Tester</h2>
-<input type="text" [(ngModel)]="payload2">
-<button type="button" class="btn btn-primary" (click)="submitPayload()">Button</button>
-<p>{{payload2}}</p>
-<p [innerHTML]="msg2"></p>
+<input type="text" [(ngModel)]="payload">
+<button type="button" class="btn btn-primary" (click)="payloadTester()">Test Payload</button>
+<p>{{payload}}</p>
+<p [innerHTML]="renderedPayload"></p>
+
+<a href="https://portswigger.net/web-security/cross-site-scripting/cheat-sheet" target="_blank">PortSwigger Cross-site scripting (XSS) cheat sheet</a>
+
 <hr>
 
 <h2>Interpolation</h2>
-<h3>Original Value: {{payload}}</h3>
-<input [(ngModel)]="payload">
-<button type="button" class="btn btn-primary" (click)="clickEvent()">Button</button>
-<p>{{msg}}</p>
+<h3>Original Value: {{payload2}}</h3>
+<input [(ngModel)]="payload2">
+<button type="button" class="btn btn-primary" (click)="interpolatePayload()">Button</button>
+<p>{{interpolatedPayload2}}</p>
 <hr>
+
 
 <!-- Angular 2+ supports an [innerHTML] property binding that will render HTML. -->
 <!-- use Plain Text Example &amp; <strong>Bold Text Example</strong> -->
-
 <h3>Using the [innerHTML] binded property: </h3>
 <h3>Original Value: {{payload3}} </h3>
 <input [(ngModel)]="payload3">
-<button type="button" class="btn btn-primary" (click)="testInnerHtml()">Untrusted</button>
-<button type="button" class="btn btn-primary" (click)="testInnerHtml2()">Trusted</button>
-
-<p [innerHTML]="msg4"></p>
+<button type="button" class="btn btn-primary" (click)="renderUntrustedHTML()">Untrusted</button>
+<button type="button" class="btn btn-primary" (click)="renderTrustedHTML()">Trusted</button>
+<p [innerHTML]="renderedPayload3"></p>
 <hr>
 
+
+<!-- url / links -->
 <h2>Dangerous URL</h2>
 <p>{{dangerousUrl}}</p>
 <p><a [href]="dangerousUrl">Click me</a></p>
